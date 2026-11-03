@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRONTLINE — Этап 7: Полноценный ИИ-Солдат (Боты)</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Меню паузы / старта -->
+  <div id="overlay">
+    <div class="overlay-card">
+      <div class="badge">FRONTLINE // STAGE 7 BUILD</div>
+      <h1>ИИ-СОЛДАТЫ И БОЕВЫЕ СТОЛКНОВЕНИЯ</h1>
+      <p class="subtitle">
+        Интегрированы вооружённые боты с тактическим поведением, преследованием, стрельбой и командным противостоянием.
+      </p>
+      <div class="controls-grid">
+        <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — Перемещение</div>
+        <div><kbd>Shift</kbd> — Бег</div>
+        <div><kbd>Ctrl</kbd> — Приседание</div>
+        <div><kbd>Z</kbd> — Лёжа / Ползком</div>
+        <div><kbd>ЛКМ</kbd> — Огонь</div>
+        <div><kbd>ПКМ</kbd> — Прицеливание (ADS)</div>
+        <div><kbd>G</kbd> — Бросок гранаты</div>
+        <div><kbd>R</kbd> / <kbd>T</kbd> — Перезарядка / Сброс HP</div>
+      </div>
+      <button id="start-btn">ВОЙТИ В БОЙ</button>
+    </div>
+  </div>
+
+  <!-- Экран смерти игрока -->
+  <div id="death-screen" class="hidden">
+    <div class="death-card">
+      <div class="death-badge">БОЕЦ УБИТ В БОЮ</div>
+      <h1>KIA (KILLED IN ACTION)</h1>
+      <p>Вы пали от огня противника.</p>
+      <button id="restart-btn">НАЧАТЬ ЗАНОВО</button>
+    </div>
+  </div>
+
+  <!-- Боевой интерфейс (HUD) -->
+  <div id="hud">
+    <div id="scope-vignette"></div>
+    <div id="damage-vignette"></div>
+
+    <div id="top-bar">
+      <div class="hud-stat">FRONTLINE // STAGE 7</div>
+      <div class="hud-stat" id="optic-status">ПРИЦЕЛ: МЕХАНИЧЕСКИЙ (1.0×)</div>
+      <div class="hud-stat" id="stance-display">СТОЙКА: СТОЯ</div>
+      <div class="hud-stat" id="fps-counter">FPS: 60</div>
+      <div class="hud-stat" id="coords-display">X: 0.0 | Z: 0.0</div>
+    </div>
+
+    <!-- Статус игрока и гранаты -->
+    <div id="player-status-hud">
+      <div class="player-hp-box">
+        <span class="status-label">ЗДОРОВЬЕ</span>
+        <div class="player-hp-bar-bg">
+          <div id="player-hp-fill"></div>
+        </div>
+        <span id="player-hp-val">100 / 100</span>
+      </div>
+      <div class="grenade-box">
+        <span class="status-label">ГРАНАТЫ [G]</span>
+        <div class="grenade-counter-row">
+          <span class="grenade-icon">💣</span>
+          <span id="hud-grenade-count">3</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="crosshair">
+      <span class="ch-line ch-top"></span>
+      <span class="ch-line ch-bottom"></span>
+      <span class="ch-line ch-left"></span>
+      <span class="ch-line ch-right"></span>
+      <div id="hitmarker" class="hidden"></div>
+    </div>
+
+    <div id="inspect-panel" class="hidden">
+      <div class="inspect-header">
+        <span id="inspect-faction">ФРАКЦИЯ</span>
+        <span id="inspect-hp-text">100 / 100 HP</span>
+      </div>
+      <div id="inspect-title">Боец #1</div>
+      <div class="hp-bar-bg">
+        <div id="inspect-hp-fill"></div>
+      </div>
+      <div id="inspect-details">Комплектация снаряжения</div>
+    </div>
+
+    <!-- Оружейный HUD -->
+    <div id="weapon-hud">
+      <div class="weapon-slots">
+        <span class="slot active" data-slot="0">1 АК-74М</span>
+        <span class="slot" data-slot="1">2 АК-12</span>
+        <span class="slot" data-slot="2">3 M4A1</span>
+        <span class="slot" data-slot="3">4 HK416</span>
+        <span class="slot" data-slot="4">5 ГРАЧ</span>
+      </div>
+      <div class="weapon-main-panel">
+        <div class="weapon-info">
+          <div id="hud-weapon-name">АК-74М</div>
+          <div id="hud-fire-mode">5.45×39 ММ • ОТКРЫТЫЙ ПРИЦЕЛ</div>
+        </div>
+        <div class="ammo-counter">
+          <span id="hud-ammo-mag">30</span>
+          <span class="ammo-sep">/</span>
+          <span id="hud-ammo-reserve">120</span>
+        </div>
+      </div>
+      <div id="reload-indicator" class="hidden">ПЕРЕЗАРЯДКА...</div>
+    </div>
+
+    <div id="bottom-hint">
+      <kbd>Ctrl</kbd> Присед • <kbd>Z</kbd> Лёжа • <kbd>G</kbd> Граната • <kbd>Shift</kbd> Бег • <kbd>R</kbd> Перезарядка
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
